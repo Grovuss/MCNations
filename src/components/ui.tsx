@@ -53,30 +53,6 @@ export function SecondaryButton({
   );
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="text-sm font-medium text-steel-400">{children}</p>;
-}
-
-export function SectionHeading({
-  kicker,
-  title,
-  lede,
-  align = "left",
-}: {
-  kicker?: string;
-  title: string;
-  lede?: string;
-  align?: "left" | "center";
-}) {
-  return (
-    <div className={align === "center" ? "text-center mx-auto max-w-2xl" : "max-w-2xl"}>
-      {kicker && <Eyebrow>{kicker}</Eyebrow>}
-      <h2 className="mt-2 text-3xl sm:text-4xl">{title}</h2>
-      {lede && <p className="mt-4 text-parchment-300 leading-relaxed">{lede}</p>}
-    </div>
-  );
-}
-
 export function CopyField({ value, label }: { value: string; label?: string }) {
   const [copied, setCopied] = useState(false);
 

@@ -15,28 +15,29 @@ Requires Node.js 18+.
 
 ## Editable site config
 
-Almost everything you'll need to update after launch lives in one file:
+Everything you'll need to update after launch lives in `src/config/site.ts`:
 
-**`src/config/site.ts`**
-- `discordUrl` — the Discord invite link used across the nav, home page, and footer
-- `serverAddressJava` / `serverAddressBedrock` / `bedrockPort` — server connection details shown on Home and the How to Join page
-- `mapUrl` — set this once a BlueMap/Dynmap (or similar) instance is live. Leave `null` to keep the polished "map coming soon" placeholder on the Map page.
-- `mapEmbeddable` — set to `true` if the map host allows being embedded in an `<iframe>`; otherwise the Map page just links out via an "Open Full Map" button.
-- `statusApiUrl` — point this at a live server-status JSON endpoint (`{ online, players: { online, max } }`) to enable the real player-count pill on Home. Left as `null` by default rather than showing fake numbers.
+- `discordUrl` — the Discord invite link used in the nav, footer, and How to Join page.
+- `serverAddressJava` / `serverAddressBedrock` / `bedrockPort` — server connection details on Home and How to Join.
+- `mapUrl` — the live BlueMap URL. This is the single source of truth: the header nav, footer, and Map page button all read from here, so it only ever needs to change in one place.
+
+  **Currently:** `http://play.mcnations.online:8147/...`, served over plain `http://`. Since the site itself deploys over `https://`, the map always opens in a new tab (`target="_blank"`) rather than being embedded — browsers block `http://` content inside an `https://` iframe ("mixed content"). If BlueMap is ever put behind a reverse proxy with TLS (Caddy, nginx, or Cloudflare), it could be embedded directly on the Map page instead, but that's a template change, not just a config edit.
+
+Donation tiers are exported separately from the same file as `donationTiers` — an array of `{ name, price, blurb, url }`. Each renders as a card on the Donate page with a "Support MCN" button that opens the CraftingStore link in a new tab. Add, remove, reprice, or relink tiers by editing this array; the Donate page has no hardcoded tier content.
 
 ## Content that's intentionally left as a placeholder
 
-- **Rules → Nations** (`src/pages/Rules.tsx`) — holds space for MCNations' actual nation/war rules.
-- **About Us → "The team behind MCNations"** (`src/pages/AboutUs.tsx`) — reserved for real staff bios once you're ready to publish them.
-- **Donate → Supporter ranks** (`src/pages/Donate.tsx`) — three tier cards (Supporter / Contributor / Patron) with no prices or payment links wired up. Rename, price, and link these once donation processing is set up. No payment link should be added without also linking real Discord role/rank automation, since the page promises supporter ranks are the only benefit.
+- **Rules → Nations & Conflict** (`src/pages/Rules.tsx`) — holds space for MCNations' actual nation/war rules once those are finalized. Explicitly noted as a placeholder in the UI rather than filled with invented policy.
+
+Everything else on the site (features, About copy, donation tiers and prices, rules text) reflects real, current information rather than placeholder content.
 
 ## Project structure
 
 ```
 src/
   assets/          logo files
-  components/      Navbar, Footer, Layout, shared UI (buttons, section headings, copy field, server status)
-  config/site.ts   central site configuration (see above)
+  components/      Navbar, Footer, Layout, PageTitle, shared UI (buttons, copy field)
+  config/site.ts   central site configuration — map URL, Discord link, server address, donation tiers
   pages/           one file per route (Home, MapPage, Rules, HowToJoin, AboutUs, Donate)
 ```
 
@@ -48,10 +49,11 @@ Routing is handled by `react-router-dom` in `src/App.tsx`. Every page shares the
 2. Import the repo in Vercel. Framework preset: **Vite**. Build command `npm run build`, output directory `dist` (Vercel usually detects both automatically).
 3. `vercel.json` is already included with a rewrite rule so client-side routes (e.g. `/rules`, `/donate`) work on refresh and direct link.
 
-No environment variables are required for the base site. If you wire up a live status API or map URL, those are plain config values in `src/config/site.ts`, not secrets — set them directly in code.
+No environment variables or secrets are required — the map URL, Discord link, and donation links are all plain values in `src/config/site.ts`.
 
 ## Notes
 
 - The favicon (`public/favicon.png`) is generated from the crest mark on a dark background. Regenerate it from `src/assets/logo-mark.png` if the crest changes.
 - Fonts (Cinzel for display, Inter for body) are loaded from Google Fonts in `index.html`.
 - `prefers-reduced-motion` is respected globally (see `src/index.css`).
+- The Rules page uses native `<details>`/`<summary>` elements for the accordion — no JS state or extra dependency needed, and it's keyboard/screen-reader accessible by default.

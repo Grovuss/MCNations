@@ -1,119 +1,55 @@
 import PageTitle from "../components/PageTitle";
-
-const tiers = [
-  { name: "Supporter", note: "Entry-level supporter rank" },
-  { name: "Contributor", note: "Mid-tier supporter rank" },
-  { name: "Patron", note: "Top-tier supporter rank" },
-];
-
-const noAdvantages = [
-  "Items",
-  "Money",
-  "Land",
-  "Commands",
-  "Gameplay advantages",
-  "Special abilities",
-  "Priority gameplay benefits",
-  "Other in-game advantages",
-];
+import { donationTiers } from "../config/site";
 
 export default function Donate() {
   return (
     <>
-      <PageTitle title="Donate" description="Support MCNations. Donations are completely optional and provide no gameplay advantage." />
-
-      <section className="border-b border-ink-700">
-        <div className="container-page py-16 sm:py-20">
-          <p className="text-sm font-medium text-steel-400">Optional</p>
-          <h1 className="mt-2 text-4xl sm:text-5xl">Support MCNations</h1>
-          <p className="mt-6 max-w-2xl text-lg text-parchment-200 leading-relaxed">
-            MCNations is supported by players who choose to contribute toward the continued
-            operation and development of the server.
-          </p>
-        </div>
-      </section>
-
-      <section className="border-b border-ink-700 bg-ink-900/40">
-        <div className="container-page py-12 sm:py-14">
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="border-l-2 border-bronze-500 pl-5">
-              <p className="text-lg text-parchment-100 leading-relaxed">
-                Donations are completely optional. You do not need to donate to play MCNations.
-              </p>
-            </div>
-            <div className="border-l-2 border-bronze-500 pl-5">
-              <p className="text-lg text-parchment-100 leading-relaxed">
-                Donations do <span className="text-bronze-400">not</span> provide gameplay
-                advantages or perks on the server.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-ink-700">
-        <div className="container-page py-16 sm:py-20">
-          <div className="max-w-2xl">
-            <p className="text-parchment-200 leading-relaxed">
-              You can play MCNations, join a nation, participate in wars, build, explore, and enjoy
-              the server without spending any money.
-            </p>
-            <p className="mt-4 text-parchment-200 leading-relaxed">
-              If you choose to donate, you're helping support the costs of running and developing
-              MCNations — things like server hosting, infrastructure, and ongoing development. In
-              recognition of your support, you receive a supporter rank in-game and in the
-              MCNations Discord.
-            </p>
-            <p className="mt-4 font-display text-parchment-100">
-              Supporter ranks do not provide gameplay perks or advantages.
-            </p>
-          </div>
-
-          <div className="mt-10 rounded-sm border border-ink-700 bg-ink-900/60 p-6 sm:p-8">
-            <h2 className="text-sm font-medium text-steel-400">
-              A supporter rank never includes any of the following
-            </h2>
-            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-4">
-              {noAdvantages.map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-parchment-300">
-                  <span className="text-parchment-300/50">—</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <PageTitle title="Donate" description="Support MCNations. Donations are optional and provide no gameplay advantage." />
 
       <section>
         <div className="container-page py-16 sm:py-20">
-          <h2 className="text-2xl">Supporter ranks</h2>
-          <p className="mt-2 max-w-xl text-sm text-parchment-300">
-            Placeholder tiers — names, pricing, and payment options will be added here once they're
-            finalized.
+          <h1 className="text-4xl sm:text-5xl">Support MCNations</h1>
+
+          <p className="mt-6 max-w-2xl text-lg text-parchment-200 leading-relaxed">
+            MCNations is free to play. Donations are completely optional and help support server
+            hosting, infrastructure, development, and other operating costs.
           </p>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-3">
-            {tiers.map((tier) => (
+          <p className="mt-10 font-display text-2xl sm:text-3xl text-bronze-400">
+            Donations do not provide gameplay advantages.
+          </p>
+
+          <p className="mt-4 max-w-2xl text-parchment-300 leading-relaxed">
+            Supporters receive only a recognition rank in-game and a corresponding role in the
+            MCNations Discord. These ranks do not provide items, money, commands, land, special
+            abilities, priority access, or other gameplay benefits.
+          </p>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-3">
+            {donationTiers.map((tier) => (
               <div
                 key={tier.name}
-                className="flex flex-col rounded-sm border border-dashed border-ink-600 p-6"
+                className="flex flex-col rounded-sm border border-ink-700 bg-ink-900/60 p-6 sm:p-7"
               >
-                <h3 className="font-display text-lg text-parchment-100">{tier.name}</h3>
-                <p className="mt-1 text-xs text-parchment-300/70">{tier.note}</p>
-                <div className="mt-5 flex-1 rounded-sm border border-ink-700 bg-ink-900/60 p-4 text-xs text-parchment-300/60">
-                  Price and benefits to be configured.
-                </div>
-                <button
-                  type="button"
-                  disabled
-                  className="mt-4 w-full cursor-not-allowed rounded-sm border border-ink-600 py-2.5 text-xs font-medium text-parchment-300/50"
+                <h2 className="font-display text-lg text-parchment-100">{tier.name}</h2>
+                <p className="mt-1 font-display text-2xl text-bronze-400">{tier.price}</p>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-parchment-300">{tier.blurb}</p>
+                <a
+                  href={tier.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex items-center justify-center rounded-sm bg-bronze-500 px-5 py-2.5 text-sm font-semibold tracking-wide text-ink-950 transition-colors hover:bg-bronze-400"
                 >
-                  Not yet available
-                </button>
+                  Support MCN
+                </a>
               </div>
             ))}
           </div>
+
+          <p className="mt-12 text-sm text-parchment-300/70">
+            Donations are optional and are intended to support the continued operation of
+            MCNations.
+          </p>
         </div>
       </section>
     </>

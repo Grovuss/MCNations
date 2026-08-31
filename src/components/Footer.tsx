@@ -3,20 +3,11 @@ import Logo from "./Logo";
 import { DiscordIcon } from "./Navbar";
 import { site } from "../config/site";
 
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/map", label: "Map" },
-  { to: "/rules", label: "Rules" },
-  { to: "/how-to-join", label: "How to Join" },
-  { to: "/about", label: "About Us" },
-  { to: "/donate", label: "Donate" },
-];
-
 export default function Footer() {
   return (
     <footer className="border-t border-ink-700 bg-ink-900">
-      <div className="container-page py-12">
-        <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
+      <div className="container-page py-10">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <Logo />
             <p className="mt-3 font-display text-sm tracking-wide text-bronze-400">
@@ -25,15 +16,29 @@ export default function Footer() {
           </div>
 
           <nav className="grid grid-cols-2 gap-x-10 gap-y-2 sm:flex sm:gap-8" aria-label="Footer">
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors"
-              >
-                {l.label}
-              </Link>
-            ))}
+            <Link to="/" className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors">
+              Home
+            </Link>
+            <a
+              href={site.mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors"
+            >
+              Map
+            </a>
+            <Link to="/rules" className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors">
+              Rules
+            </Link>
+            <Link to="/how-to-join" className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors">
+              How to Join
+            </Link>
+            <Link to="/about" className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors">
+              About Us
+            </Link>
+            <Link to="/donate" className="text-sm text-parchment-300 hover:text-parchment-100 transition-colors">
+              Donate
+            </Link>
             <a
               href={site.discordUrl}
               target="_blank"
@@ -46,9 +51,8 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-col-reverse gap-3 border-t border-ink-800 pt-6 text-xs text-parchment-300/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 border-t border-ink-800 pt-5 text-xs text-parchment-300/70">
           <p>© {new Date().getFullYear()} MCNations. Not affiliated with Mojang or Microsoft.</p>
-          <p>Built for players who build nations.</p>
         </div>
       </div>
     </footer>

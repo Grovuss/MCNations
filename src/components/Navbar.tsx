@@ -3,13 +3,17 @@ import { NavLink, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import { site } from "../config/site";
 
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/map", label: "Map" },
-  { to: "/rules", label: "Rules" },
-  { to: "/how-to-join", label: "How to Join" },
-  { to: "/about", label: "About Us" },
-  { to: "/donate", label: "Donate" },
+type NavItem =
+  | { kind: "internal"; label: string; to: string }
+  | { kind: "external"; label: string; href: string };
+
+const links: NavItem[] = [
+  { kind: "internal", to: "/", label: "Home" },
+  { kind: "external", href: site.mapUrl, label: "Map" },
+  { kind: "internal", to: "/rules", label: "Rules" },
+  { kind: "internal", to: "/how-to-join", label: "How to Join" },
+  { kind: "internal", to: "/about", label: "About Us" },
+  { kind: "internal", to: "/donate", label: "Donate" },
 ];
 
 export default function Navbar() {
@@ -47,20 +51,35 @@ export default function Navbar() {
         </NavLink>
 
         <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">
-          {links.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.to === "/"} className={linkClass}>
-              {({ isActive }) => (
+          {links.map((l) =>
+            l.kind === "external" ? (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative py-1 text-[0.93rem] text-parchment-300 transition-colors hover:text-parchment-100"
+              >
                 <span className="group inline-block">
                   {l.label}
-                  <span
-                    className={`block h-px mt-1 bg-bronze-400 transition-all ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
+                  <span className="block h-px mt-1 w-0 bg-bronze-400 transition-all group-hover:w-full" />
                 </span>
-              )}
-            </NavLink>
-          ))}
+              </a>
+            ) : (
+              <NavLink key={l.to} to={l.to} end={l.to === "/"} className={linkClass}>
+                {({ isActive }) => (
+                  <span className="group inline-block">
+                    {l.label}
+                    <span
+                      className={`block h-px mt-1 bg-bronze-400 transition-all ${
+                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  </span>
+                )}
+              </NavLink>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -89,21 +108,34 @@ export default function Navbar() {
       {open && (
         <div className="lg:hidden border-t border-ink-700 bg-ink-950">
           <nav className="container-page flex flex-col py-3" aria-label="Mobile">
-            {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.to === "/"}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `py-3 border-b border-ink-800 last:border-b-0 text-[0.95rem] ${
-                    isActive ? "text-bronze-400" : "text-parchment-200"
-                  }`
-                }
-              >
-                {l.label}
-              </NavLink>
-            ))}
+            {links.map((l) =>
+              l.kind === "external" ? (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="py-3 border-b border-ink-800 text-[0.95rem] text-parchment-200"
+                >
+                  {l.label}
+                </a>
+              ) : (
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  end={l.to === "/"}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `py-3 border-b border-ink-800 last:border-b-0 text-[0.95rem] ${
+                      isActive ? "text-bronze-400" : "text-parchment-200"
+                    }`
+                  }
+                >
+                  {l.label}
+                </NavLink>
+              ),
+            )}
             <a
               href={site.discordUrl}
               target="_blank"

@@ -4,7 +4,8 @@
 export const site = {
   name: "MCNations",
   shortName: "MCN",
-  tagline: "Build your nation. Shape the world.",
+  headline: "Build Your Nation. Shape the World.",
+  tagline: "A Minecraft nations server for building, diplomacy, and conquest.",
 
   // Server connection details
   serverAddressJava: "play.mcnations.online",
@@ -14,22 +15,40 @@ export const site = {
   // Community
   discordUrl: "https://discord.gg/2Ph5Bd7Dqc",
 
-  // Live map. Set `mapUrl` to a BlueMap/Dynmap URL to enable the embed
-  // and the "Open Full Map" button. Leave as `null` to show the
-  // placeholder state instead.
-  mapUrl: null as string | null,
-  // If the map can be embedded in an <iframe>, set this to true.
-  // Some map hosts disallow iframe embedding and require opening in
-  // a new tab instead.
-  mapEmbeddable: false,
-
-  // Server status API. Point this at a live status endpoint
-  // (e.g. an mcsrvstat.us proxy or a self-hosted endpoint) that
-  // returns JSON shaped like:
-  //   { online: boolean, players: { online: number, max: number } }
-  // Leave as `null` to keep the UI in its "not connected" state
-  // rather than showing fabricated numbers.
-  statusApiUrl: null as string | null,
+  // Live world map (BlueMap). This is the single source of truth — the
+  // header, footer, and Map page all read from here, so updating the
+  // map link only ever needs to happen in this one place.
+  //
+  // Note: this URL is served over plain http://, while the site itself
+  // deploys over https:// (Vercel). That's why it's opened in a new tab
+  // rather than embedded in an <iframe> — browsers block http:// content
+  // inside an https:// iframe ("mixed content"). Once BlueMap is served
+  // over https:// (e.g. behind a Caddy/nginx/Cloudflare reverse proxy),
+  // it could be embedded directly if that's ever wanted instead.
+  mapUrl: "http://play.mcnations.online:8147/#world:1896:0:2282:4543:0:0:0:0:perspective",
 };
 
 export type SiteConfig = typeof site;
+
+// Donation tiers shown on the Donate page. Each links straight to its
+// CraftingStore package.
+export const donationTiers = [
+  {
+    name: "Supporter",
+    price: "$5",
+    blurb: "Support MCN and receive the Supporter recognition rank in-game and in Discord.",
+    url: "https://mcnations.craftingstore.net/package/1588308",
+  },
+  {
+    name: "Contributor",
+    price: "$25",
+    blurb: "Show additional support for MCN and receive the Contributor recognition rank in-game and in Discord.",
+    url: "https://mcnations.craftingstore.net/package/1588332",
+  },
+  {
+    name: "Patron",
+    price: "$50",
+    blurb: "Become a Patron supporter and receive the Patron recognition rank in-game and in Discord.",
+    url: "https://mcnations.craftingstore.net/package/1588335",
+  },
+];
