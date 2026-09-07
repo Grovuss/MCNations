@@ -25,7 +25,7 @@ export const site = {
   // inside an https:// iframe ("mixed content"). Once BlueMap is served
   // over https:// (e.g. behind a Caddy/nginx/Cloudflare reverse proxy),
   // it could be embedded directly if that's ever wanted instead.
-  mapUrl: "http://play.mcnations.online:8147/#world:1896:0:2282:4543:0:0:0:0:perspective",
+  mapUrl: "http://play.mcnations.online:8133",
 };
 
 export type SiteConfig = typeof site;
