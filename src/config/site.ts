@@ -10,7 +10,7 @@ export const site = {
   // Server connection details
   serverAddressJava: "play.mcnations.online",
   serverAddressBedrock: "play.mcnations.online",
-  bedrockPort: "25590",
+  bedrockPort: "25570",
 
   // Community
   discordUrl: "https://discord.gg/2Ph5Bd7Dqc",
