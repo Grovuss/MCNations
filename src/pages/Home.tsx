@@ -1,5 +1,6 @@
 import PageTitle from "../components/PageTitle";
 import Logo from "../components/Logo";
+import MonthlyCreatorSection from "../components/MonthlyCreatorSection";
 import { PrimaryButton, SecondaryButton, CopyField } from "../components/ui";
 import { site } from "../config/site";
 import logoMark from "../assets/logo-mark.png";
@@ -66,6 +67,9 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* Monthly Creator (only renders if one is set and enabled) */}
+      <MonthlyCreatorSection />
 
       {/* Features */}
       <section className="border-b border-ink-700">
